@@ -11,9 +11,9 @@ import java.util.UUID;
 public interface UsuarioRepository extends JpaRepository<UsuarioEntity, UUID> {
 
     /*@Query("SELECT u FROM UsuarioEntity u WHERE u.user=?1 AND u.pass=?2")
-    UsuarioEntity login(String user, String pass);
+    UsuarioEntity login(String user, String pass);*/
 
-    UsuarioEntity findByNombreAndPass(String user, String pass);
-    UsuarioEntity findByUsuario(String user);*/
+    UsuarioEntity findByNombreAndPassword(String usuario, String password);
+    UsuarioEntity findByUsuario(String usuario);
 
 }

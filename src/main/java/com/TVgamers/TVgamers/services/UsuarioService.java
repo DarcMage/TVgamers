@@ -12,9 +12,6 @@ import com.TVgamers.TVgamers.controllers.dto.UsuarioLoginResponse;
 import com.TVgamers.TVgamers.models.UsuarioEntity;
 import com.TVgamers.TVgamers.services.repository.UsuarioRepository;
 
-
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -43,7 +40,6 @@ public class UsuarioService {
     public Usuariodto save(UsuariodtoPost user){
         try{
             System.out.println(user);
-            /*AQUI SE ESTA PARCEANDO UN DTO A UNA IDENTIDAD*/
             return this.modelMapper.map(
                     usuarioRepository.save(
                             this.modelMapper.map(user, UsuarioEntity.class)
@@ -67,36 +63,33 @@ public class UsuarioService {
             return false;
         }
     }
-  /*  public UsuarioLoginResponse login (String user, String pass){
-        UsuarioLoginResponse response= new UsuarioLoginResponse();
+    public UsuarioLoginResponse login (String usuario, String password) {
+        UsuarioLoginResponse response = new UsuarioLoginResponse();
         response.setCodigo(400);
-        try{
-
-            UsuarioEntity usuariouser=usuarioRepository.findByUsuario(user);
-            if(usuariouser==null){
+        try {
+            UsuarioEntity userlogin = usuarioRepository.findByUsuario(usuario);
+            if (userlogin == null) {
                 response.setMensaje("Usuario no existe");
                 response.setToken("");
                 return response;
             }
-            System.out.println(usuariouser);
+            System.out.println(userlogin);
 
             /*UsuarioEntity UsuarioEntity=Usuariodto.login(nom_usu,password);
             log.info("Usuario",UsuarioEntity);
+           System.out.println(UsuarioEntity); */
 
-            System.out.println(UsuarioEntity);*/
-
-/*
-            if(!usuariouser.getPass().equals(pass))
+            if(!userlogin.getPassword().equals(password))
             {
                 response.setMensaje("Usuario y Clave incorrectos");
                 return response;
             }
-            String datos="codigo="+usuariouser.getCodigo()+"!=!";
-            datos+="usuario="+usuariouser.getUsuario()+"!=!";
-            datos+="pass="+usuariouser.getPass()+"!=!";
-            datos+="nombre="+usuariouser.getNombre()+"!=!";
-            datos+="email="+usuariouser.getEmail()+"!=!";
-            datos+="level="+usuariouser.getLevel()+"!=!";
+            String datos="codigo="+userlogin.getCodigo()+"!=!";
+            datos+="usuario="+userlogin.getUsuario()+"!=!";
+            datos+="password="+userlogin.getPassword()+"!=!";
+            datos+="nombre="+userlogin.getNombre()+"!=!";
+            datos+="email="+userlogin.getEmail()+"!=!";
+            datos+="level="+userlogin.getLevel()+"!=!";
 
             Base64 base64 = new Base64();
             String token=new String(base64.encode(datos.getBytes()));
@@ -112,27 +105,27 @@ public class UsuarioService {
             response.setToken("");
             return response;
         }
-    } */
-   /* public String findByUserAndPass (String user, String pass){
+    }
+    public String findByNombreAndPassword (String usuario, String pass){
         try{
-            UsuarioEntity UsuarioEntity=usuarioRepository.findByNombreAndPass(user,pass);
-            System.out.println(UsuarioEntity);
-            if(UsuarioEntity.equals(null)) return null;
+            UsuarioEntity userlogin2 =usuarioRepository.findByNombreAndPassword(usuario,pass);
+            System.out.println(userlogin2);
+            if(userlogin2.equals(null)) return null;
 
-            String datos="codigo="+UsuarioEntity.getCodigo()+"!=!";
-            datos+="usuario="+UsuarioEntity.getUsuario()+"!=!";
-            datos+="pass="+UsuarioEntity.getPass()+"!=!";
-            datos+="nombre="+UsuarioEntity.getNombre()+"!=!";
-            datos+="email="+UsuarioEntity.getEmail()+"!=!";
-            datos+="level="+UsuarioEntity.getLevel()+"!=!";
+            String datos="codigo="+userlogin2.getCodigo()+"!=!";
+            datos+="usuario="+userlogin2.getUsuario()+"!=!";
+            datos+="password="+userlogin2.getPassword()+"!=!";
+            datos+="nombre="+userlogin2.getNombre()+"!=!";
+            datos+="email="+userlogin2.getEmail()+"!=!";
+            datos+="level="+userlogin2.getLevel()+"!=!";
 
             Base64 base64 = new Base64();
             return new String(base64.encode(datos.getBytes()));
         }catch(Exception ex){
-            log.error("Error en findByNombreAndPass",ex.getCause());
+            log.error("Error en findByNombreAndPassword",ex.getCause());
             return null;
         }
-    }*/
+    }
 }
 
 

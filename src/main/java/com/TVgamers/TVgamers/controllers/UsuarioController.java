@@ -28,8 +28,7 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    // Example si queremos traer UN USUARIO
-    // localhost:8080/v1/usuarios/codusu
+
 
     @PostMapping()
     public ResponseEntity<Usuariodto> save(@RequestBody UsuariodtoPost dto){
@@ -40,17 +39,17 @@ public class UsuarioController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    /*@PostMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<UsuarioLoginResponse> login(@RequestBody UsuarioLoginDto dto){
         return new ResponseEntity<UsuarioLoginResponse>(service.login(
                 dto.getUsuario(),
-                dto.getPass()),HttpStatus.OK);
+                dto.getPassword()),HttpStatus.OK);
     }
     @PostMapping("/login2")
     public ResponseEntity<String> login2(@RequestBody UsuarioLoginDto dto){
-        return new ResponseEntity<>(service.findByUserAndPass(dto.getUsuario(),
-                dto.getPass()),HttpStatus.OK);
-    }*/
+        return new ResponseEntity<>(service.findByNombreAndPassword(dto.getUsuario(),
+                dto.getPassword()),HttpStatus.OK);
+    }
     @PutMapping()
     public ResponseEntity<Usuariodto> update(@RequestBody UsuariodtoPost dto){
         try{

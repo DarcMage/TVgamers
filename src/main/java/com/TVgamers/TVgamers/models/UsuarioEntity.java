@@ -18,8 +18,8 @@ public class UsuarioEntity {
     private UUID codigo;
     @Column (name = "usuario", nullable = false)
     private String usuario;
-    @Column (name = "pass", nullable = false)
-    private String pass;
+    @Column (name = "password", nullable = false)
+    private String password;
     @Column (name = "nombre", nullable = false)
     private String nombre;
     @Column (name = "email", nullable = false)
