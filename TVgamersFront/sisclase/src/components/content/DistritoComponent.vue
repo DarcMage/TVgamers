@@ -1,0 +1,174 @@
+
+<template>
+    <div class="right_col" role="main">
+        <div class="row">
+			<div class="col-md-12 col-sm-12 ">
+				<div class="x_panel" id="tabladatosmenus" v-show="!mostrarformulario">
+					<div class="x_title">
+						<h2>Menus de Opciones <small>listado</small></h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a>
+								<i class="fa fa-plus" v-on:click="nuevoregistro();"></i></a>
+							</li>
+							
+							<li><a class="collapse-link">
+								<i class="fa fa-chevron-up"></i></a>
+							</li>
+							
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+
+						<div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                    <table id="datatable-fixed-header" class="table table-striped table-bordered" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Distrito</th>
+						  <th>Acciones</th>
+                        </tr>
+                      </thead>
+					<tbody>
+						<tr v-for="itemDistrito in listadistrito" v-bind:key="itemDistrito" v-bind:itemDistrito="itemDistrito" >
+                          <td>{{itemDistrito.nombre}}</td>
+						  <td class="text-center">
+							<i class="fa fa-pencil" v-on:click="editarDistrito(itemDistrito)" style="cursor:pointer; padding-right: 1ex; color: burlywood;"></i>
+							<i class="fa fa-trash" v-on:click="eliminarDistrito(itemDistrito.codigo)"  style="cursor:pointer; color:red"></i>
+						  </td>
+                        </tr>   
+						             
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+					</div>
+				</div>
+
+
+				<div class="x_panel" id="formulariomenus" v-show="mostrarformulario">
+					<div class="x_title">
+						<h2>Menus de Opciones <small>editar/crear</small></h2>
+						<ul class="nav navbar-right panel_toolbox">
+							<li><a class="collapse-link">
+								<i class="fa fa-chevron-up"></i></a>
+							</li>
+							
+							<li><a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+					<div class="x_content">
+						<br />
+						<form id="frmDistrito" class="form-horizontal form-label-left">
+							<input type="hidden" id="id" name="id" v-model="id"/>
+							<div class="item form-group">
+								<label class="col-form-label col-md-3 col-sm-3 label-align" for="nombre">Nombre de Distrito <span class="required">*</span>
+								</label>
+								<div class="col-md-6 col-sm-6 ">
+									<input type="text" id="nombre" name="nombre" v-model="nombre" required class="form-control ">
+								</div>
+							</div>
+
+							<div class="ln_solid"></div>
+							<div class="item form-group">
+								<div class="col-md-6 col-sm-6 offset-md-3">
+									<button class="btn btn-primary" type="button" v-on:click="cancelar();">Cancel</button>
+									<button class="btn btn-primary" type="reset">Reset</button>
+									<button type="button" class="btn btn-success" v-on:click="guardardatos();">Submit</button>
+								</div>
+							</div>
+
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+    </div>
+</template>
+<script>
+export default{
+	data() {
+      return {
+		codigo:null,
+		nombre:"",
+        listadistrito:[],
+		mostrarformulario:false,
+      };
+    },
+	methods: {
+		async iniciarCarga() {
+			try {
+			const response = await fetch("http://localhost:8080/v1/distrito/");
+			this.listadistrito= this.listDistritoItems = await response.json();   
+			} catch (error) {
+			//console.log(error);
+			}
+		},
+		guardardatos(){
+			var data = { 
+				nombre: this.nombre,			
+				};
+			var metodo="POST";
+
+
+			if(this.codigo!=null||this.codigo!=""){//guardar datos			
+				data.codigo=this.codigo
+				metodo="PUT";
+			}
+			fetch("http://localhost:8080/v1/distrito/", {
+			method: metodo, // or 'PUT'
+			headers: {"Content-Type": "application/json",},
+			body: JSON.stringify(data),
+			}).then((response) => response.json())
+			.then((data) => {
+				this.codigo=null;
+				this.iniciarCarga();
+				this.mostrarformulario=false;
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+				return;
+			});
+		},
+		editarDistrito(datos){
+			this.codigo=datos.codigo;
+			this.nombre=datos.nombre;
+			this.mostrarformulario=true;
+		},
+		async eliminarDistrito(codigotmp){
+			try {
+			const response =await fetch("http://localhost:8080/v1/distrito/"+codigotmp,{
+				method: "DELETE",
+			})
+			if(response.status==200){
+				this.codigo=null;
+				this.iniciarCarga();
+			}
+			console.log(response);
+			alert(response);
+			} catch (error) {
+			//console.log(error);
+			}
+			console.log(codigotmp);
+		},
+		nuevoregistro(){
+			this.mostrarformulario=true;
+			this.codigo=null;
+			this.nombre="";
+		},
+		cancelar(){
+			this.mostrarformulario=false;
+		}
+	},
+
+	created() {
+      this.iniciarCarga();
+    },
+}
+</script>

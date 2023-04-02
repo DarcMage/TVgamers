@@ -1,0 +1,17 @@
+<script setup lang="ts">
+import MenuComponent from '../components/menu/MenuComponent.vue'
+import TopComponent from '../components/top/TopComponent.vue'
+import ContentComponent from '../components/content/ContentComponent.vue'
+import FooterComponent from '../components/footer/FooterComponent.vue'
+if(sessionStorage.getItem("usuario_usuario")==null||sessionStorage.getItem("usuario_codigo")==null){
+window.location.href=window.location.origin+"/login"
+}
+console.log(sessionStorage.getItem("nombre_token"));
+
+</script>
+<template>
+    <MenuComponent />
+    <TopComponent />
+    <ContentComponent />
+    <FooterComponent />
+</template>
