@@ -17,7 +17,7 @@ https://www.postgresql.org/download/
 4. Con ello, se debe ejecutar el proyecto, y con el Resfultools cargar la base de datos para se genere dentro del postgressql.
 
 
-# Para su instalacion del FRONTEND
+# Para su instalacion del FRONTEND (TVgamersfrontend)
 
 1. Es necesario que se dentro del vsstudio, se cargue el complemento de vue.
 
